@@ -1,27 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react';
+import RouterApp from './RouterApp';
+import './App.css';
 
 const App = () => {
-  const [backendData, setBackendData] = useState([{}])
-  useEffect(() => {
-    fetch("/books/getDataUsers").then(
-      response => response.json()
-    ).then(
-      data => {
-        setBackendData(data)
-      }
-    )
-  }, [])
+
   return (
-    <div>
-      {(typeof (backendData.map(items => items.name)) === 'undefined') ? (
-        <p>Loading...</p>
-      ) : (
-        backendData.map(item => (
-          <p key={item.id}>{item.name}</p>
-        ))
-      )}
-    </div>
-  )
+    <>
+      <RouterApp />
+    </>
+  );
 }
 
-export default App
+export default App;

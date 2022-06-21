@@ -1,0 +1,14 @@
+{
+    "users": [
+      {
+        "user": "u1@u1",
+        "pass": "22",
+        "activo":"false"
+      },
+      {
+        "user": "user2@ind",
+        "pass": "21",     
+        "activo":"false"   
+      }
+    ]
+  }

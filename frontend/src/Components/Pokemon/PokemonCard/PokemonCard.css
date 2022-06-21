@@ -1,0 +1,60 @@
+.card-div{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    
+  }
+  .card {
+      /* Add shadows to create the "card" effect */
+      background-color: white;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    
+    /* On mouse-over, add a deeper shadow */
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+    .card-header-img{
+      width: 100%;
+      display: block;
+    }
+    .card-body-img{
+      border: 5px solid white;
+      border-radius: 50%;
+      margin-top: calc(-48px - 5px);
+      background-color: white;
+    }
+    /* Add some padding inside the card container */
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-bottom: 1px solid rgba(153, 153, 153, 0.383);
+    }
+    .cards{
+      justify-content: center;
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .cards-item{
+      display: flex;
+      padding: 1rem;
+    }
+  
+    @media(min-width: 768px){
+      .card{
+        width: 326px;
+      }
+  }

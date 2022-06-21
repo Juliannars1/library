@@ -1,0 +1,18 @@
+@media(min-width: 800px){
+    .form-div-Rg{
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 478px;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 4px;
+    }
+    }
+    .form-div-p{
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+    }

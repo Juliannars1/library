@@ -25,13 +25,13 @@ const signUp = async (req, res) => {
 const signIn = async (req, res) => {
     const { email, passwordForm } = req.body
     const msj = "Usuario Logiado"
-    const usersFound = await prisma.User.findMany({
-        where: {
-            email: email,
-        }
-    })
-    const { password, id_card } = usersFound[0]
     try {
+        const usersFound = await prisma.User.findMany({
+            where: {
+                email: email,
+            }
+        })
+        const { password, id_card } = usersFound[0]
         const match = await bcrypt.compareSync(passwordForm, password, (err, res) => {
             if (err) {
                 console.log('comparacion error', err)
@@ -39,7 +39,7 @@ const signIn = async (req, res) => {
         })
         const accessToken = jwt.sign({ id_card }, process.env.TOKEN_SECRET)
         if (match) {
-            res.json({ accessToken: accessToken });
+            res.json({ id: id_card, email: email, accessToken: accessToken });
         } else {
             res.json({ message: "Invalid Credentials" });
         }
