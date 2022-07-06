@@ -20,7 +20,7 @@ const Login = () => {
 
     let navigate = useNavigate();
     useEffect(() => {
-        const loggedUserJSON = window.localStorage.getItem('loggedNoteAppUser')
+        const loggedUserJSON = window.localStorage.getItem('user')
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON)
             setUser(user)
@@ -33,13 +33,12 @@ const Login = () => {
             passwordForm
         });
         window.localStorage.setItem(
-            'loggedNoteAppUser', JSON.stringify(token)
+            'user', JSON.stringify(token)
         )
-        console.log(token)
+        //console.log(token)
         if (token.accessToken) return navigate('/home');
     }
-
-    return user.id ? navigate('/home') : (
+    return user.accessToken ? navigate('/home') : (
         <div className="form-div-Lg">
             <form className="form-primary" onSubmit={handleLogin} >
                 <h3>Log in</h3>

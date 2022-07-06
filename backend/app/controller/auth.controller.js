@@ -4,22 +4,28 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const signUp = async (req, res) => {
-    const { email, name, id_card, phone_number, role, password } = req.body
+    console.log(req.body)
+    const { email, name, cardId, phoneNumber, roles, password } = req.body
     const salt = bcrypt.genSaltSync(10);
-    const createUser = await prisma.user.create({
-        data: {
-            email,
-            name,
-            id_card,
-            phone_number,
-            role,
-            password: bcrypt.hashSync(password, salt)
-        }
-    })
-    const token = jwt.sign({ id: createUser.id_card }, process.env.TOKEN_SECRET, {
-        expiresIn: 86400
-    })
-    res.json({ token })
+    try{
+        const createUser = await prisma.user.create({
+            data: {
+                email:email,
+                name:name,
+                id_card:parseInt(cardId),
+                phone_number:parseInt(phoneNumber),
+                role:roles,
+                password: bcrypt.hashSync(password, salt)
+            }
+        })
+        const accessToken = jwt.sign({ id: createUser.id_card }, process.env.TOKEN_SECRET, {
+            expiresIn: 86400
+        })
+        res.json({ accessToken })
+    }catch(err){
+    console.log(err.message)
+    }
+    
 }
 
 const signIn = async (req, res) => {
@@ -39,7 +45,7 @@ const signIn = async (req, res) => {
         })
         const accessToken = jwt.sign({ id_card }, process.env.TOKEN_SECRET)
         if (match) {
-            res.json({ id: id_card, email: email, accessToken: accessToken });
+            res.json({ email: email, accessToken: accessToken });
         } else {
             res.json({ message: "Invalid Credentials" });
         }

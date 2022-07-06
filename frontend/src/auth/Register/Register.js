@@ -1,35 +1,43 @@
 import { useState } from "react";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import './Register.css';
+
+async function registerUser(credentials) {
+    return fetch('http://localhost:5000/api/signUp', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+    })
+        .then(data => data.json())
+}
 
 const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [cardId, setCardId] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [roles, setRoles] = useState("ADMIN");
 
-
-    const [setFlag] = useState(false);
-    const [login, setLogin] = useState(true);
-
-
-    const handleFormSubmit = (e) => {
+    let navigate = useNavigate();
+    const handleFormSubmit = async(e) => {
         e.preventDefault();
-
-        if (!name || !email || !password) {
-            setFlag(true);
-        } else {
-            setFlag(false);
-            const user = {
-                name: name,
-                email: email,
-                password: password
-            }
-            localStorage.setItem('user', JSON.stringify(user));
-            console.log("Saved in Local Storage");
-            setLogin(!login);
-        }
+            const user = await registerUser({
+                name,
+                email,
+                password,
+                cardId,
+                phoneNumber,
+                roles
+            });
+            window.localStorage.setItem(
+                'user', JSON.stringify(user)
+            )
+            if (user.accessToken) return navigate('/home');        
     }
-    return localStorage.getItem('ingresado') ? <Navigate to="/home" /> : (
+    return (
         <>
             <div className="form-div-Rg">
                 <form className="form-primary" onSubmit={handleFormSubmit}>
@@ -60,7 +68,7 @@ const Register = () => {
                             className="form-control-input"
                             placeholder="Enter Number ID"
                             name="cardId"
-                            onChange={(event) => setName(event.target.value)}
+                            onChange={(event) => setCardId(event.target.value)}
                         />
                     </div>
                     <div className="form-group">
@@ -70,7 +78,7 @@ const Register = () => {
                             className="form-control-input"
                             placeholder="Enter Phone Number"
                             name="phoneNumber"
-                            onChange={(event) => setName(event.target.value)}
+                            onChange={(event) => setPhoneNumber(event.target.value)}
                         />
                     </div>
                     <div className="form-group">
@@ -78,10 +86,11 @@ const Register = () => {
                         <select
                             className="form-control-input"
                             name="roles"
-                            onChange={(event) => setName(event.target.value)}
+                            value={ roles }
+                            onChange={(event) => setRoles(event.target.value)}
                         >
-                            <option>ADMIN</option>
-                            <option>USER</option>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="USER">USER</option>
                         </select>
                     </div>
                     <div className="form-group">
@@ -104,7 +113,7 @@ const Register = () => {
             </div>
 
         </>
-    );
+    )
 }
 
 export default Register;
